@@ -8,6 +8,20 @@ public class EmailGeneratorService {
     public String generateEmailReply(EmailRequest emailRequest) 
     {    
         String prompt = buildPrompt(emailRequest);
+        
+        String requestBody = String.format("""
+                {
+                    "contents": [
+                    {
+                        "parts": [
+                        {
+                            "text": "%s"
+                        }
+                        ]
+                    }
+                    ]
+                }""", prompt);
+
         return " ";
     }
 
