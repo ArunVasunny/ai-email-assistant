@@ -1,33 +1,52 @@
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import FormControl from '@mui/material/FormControl'
+import MenuItem from '@mui/material/MenuItem'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [emailContent, setEMailContent] = useState('');
+  const [tone, SetTone] = useState('');
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Container maxWidth="md" sx={{ mt: 2 }}>
+        <Typography variant='h3' component="h1" gutterBottom>
+          Email Reply Generator
+        </Typography>
+
+        <Box sx={{mx: 3}}>
+          <TextField
+            fullWidth
+            multiline
+            rows={6}
+            variant='outlined'
+            label="Original Email Content"
+            value={emailContent || ''}
+            onChange={(e) => setEMailContent(e.target.value)}
+          />
+
+
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel>Tone (Optional)</InputLabel>
+            <Select
+              value={tone || ''}
+              label="Tone (Optional)"
+              onChange={(e) => SetTone(e.target.value)}
+            >
+              <MenuItem value="">None</MenuItem>
+              <MenuItem value="Professional">Professional</MenuItem>
+              <MenuItem value="Friendly">Friendly</MenuItem>
+              <MenuItem value="Casual">Casual</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      </Container>
     </>
   )
 }
