@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
+import axios, { Axios } from 'axios'
 
 
 function App() {
@@ -19,7 +20,24 @@ function App() {
   const [generatedReply, setGeneratedReply] = useState('');
 
   const handleSubmit = async () => {
-
+    setLoading(true);
+    try
+    {
+      const response = await axios.post("http://localhost:8080/api/email/generate",{
+        emailContent,
+        tone
+      });
+      setGeneratedReply(typeof response.data === 'string' ? response.data : JSON.stringify(response.data));
+      
+    } 
+    catch (error) 
+    {
+      console.log(error)
+    }
+    finally
+    {
+      setLoading(false)
+    }
   }
 
   return (
@@ -84,7 +102,7 @@ function App() {
             fullWidth
             multiline
             label="Generated Reply"
-            rows={6}
+            rows={10}
             variant='outlined'
             value={generatedReply || ''}
             inputProps={{readOnly: true}}
