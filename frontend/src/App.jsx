@@ -11,10 +11,12 @@ import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 
+
 function App() {
   const [emailContent, setEMailContent] = useState('');
   const [tone, setTone] = useState('');
   const [loading, setLoading] = useState(false);
+  const [generatedReply, setGeneratedReply] = useState('');
 
   const handleSubmit = async () => {
 
@@ -24,6 +26,7 @@ function App() {
     <>
       <Container maxWidth="md" sx={{ mt: 2 }}>
 
+      {/* TITLE */}
       <Typography
         variant="h3"
         component="h1"
@@ -40,6 +43,7 @@ function App() {
         Generate smart replies instantly using AI
       </Typography>
 
+        {/* INPUT AREA WITH REPLY TONES */}
         <Box sx={{mx: 3}}>
           <TextField
             fullWidth
@@ -50,7 +54,6 @@ function App() {
             value={emailContent || ''}
             onChange={(e) => setEMailContent(e.target.value)}
           />
-
 
           <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel>Tone (Optional)</InputLabel>
@@ -66,11 +69,35 @@ function App() {
             </Select>
           </FormControl>
 
+          {/* GENERATE BTN */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Button sx={{ mt: 2 }} 
               variant="contained" 
               onClick={handleSubmit}
               disabled={!emailContent || loading}> {loading ? <CircularProgress size={24}/> : "Generate Reply"}
+            </Button>
+          </Box>
+
+          {/* GENERATED REPLY FIELD WITH COPY */}
+          <TextField
+            sx={ {mt: 2} }
+            fullWidth
+            multiline
+            label="Generated Reply"
+            rows={6}
+            variant='outlined'
+            value={generatedReply || ''}
+            inputProps={{readOnly: true}}
+          />
+
+          {/* COPY BUTTON */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <Button 
+              sx={ {mt: 2} }
+              variant="outlined" 
+              disabled={!generatedReply}
+              onClick={() => navigator.clipboard.writeText(generatedReply)}>
+              Copy to Clipboard 
             </Button>
           </Box>
         </Box>
