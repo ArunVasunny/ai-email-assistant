@@ -71,7 +71,7 @@ function App() {
 
           {/* GENERATE BTN */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button sx={{ mt: 2 }} 
+            <Button  
               variant="contained" 
               onClick={handleSubmit}
               disabled={!emailContent || loading}> {loading ? <CircularProgress size={24}/> : "Generate Reply"}
@@ -93,7 +93,6 @@ function App() {
           {/* COPY BUTTON */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Button 
-              sx={ {mt: 2} }
               variant="outlined" 
               disabled={!generatedReply}
               onClick={() => navigator.clipboard.writeText(generatedReply)}>
