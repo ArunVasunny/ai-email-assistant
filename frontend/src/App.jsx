@@ -10,14 +10,15 @@ import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
-import axios, { Axios } from 'axios'
-
+import axios from 'axios'
+import Snackbar from '@mui/material/Snackbar'
 
 function App() {
   const [emailContent, setEMailContent] = useState('');
   const [tone, setTone] = useState('');
   const [loading, setLoading] = useState(false);
   const [generatedReply, setGeneratedReply] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -38,6 +39,11 @@ function App() {
     {
       setLoading(false)
     }
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(generatedReply);
+    setOpen(true);
   }
 
   return (
@@ -113,9 +119,18 @@ function App() {
             <Button 
               variant="outlined" 
               disabled={!generatedReply}
-              onClick={() => navigator.clipboard.writeText(generatedReply)}>
+              onClick={handleCopy}>
               Copy to Clipboard 
             </Button>
+
+          {/* POP UP COPY MESG */}
+            <Snackbar
+              open={open}
+              autoHideDuration={2000}
+              onClose={() => setOpen(false)}
+              message="Copied to clipboard!"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            />
           </Box>
         </Box>
       </Container>
