@@ -1,0 +1,20 @@
+{
+  "name": "Email Writer Assistant",
+  "description": "AI-Powered email reply generator",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Email Writer Assistant"
+  },
+    
+  "content_scripts": [
+    {
+      "js": [
+        "content-script.js"
+      ],
+      "matches": [
+        "http://*.example.com//"
+      ]
+    }
+  ]
+}
