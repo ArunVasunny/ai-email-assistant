@@ -73,7 +73,10 @@ public class EmailGeneratorService {
     private String buildPrompt(EmailRequest emailRequest)
     {
         StringBuilder prompt = new StringBuilder();
-        prompt.append("Generate a professional email reply for the following email: ");
+        prompt.append("Generate a professional email reply for the following email but don't give subject. ");
+        prompt.append("Write only one direct reply, no multiple options. ");
+        prompt.append("Do not use any symbols like **, --, or ---. ");
+        prompt.append("Only use placeholders like [Your Name] or [Date] where the information is genuinely unknown and required. ");
         if(emailRequest.getTone() != null && !emailRequest.getTone().isEmpty())
         {
             prompt.append("Use a ").append(emailRequest.getTone()).append(" tone.");
