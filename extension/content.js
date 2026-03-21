@@ -2,7 +2,7 @@ console.log("Working");
 
 function getEmailContent()
 {
-    const selectors = ['.h7','.a3s aiL','.gmail_quote','[role="presentation"]'];
+    const selectors = ['.h7','.a3s.aiL','.gmail_quote','[role="presentation"]'];
     for(const selector of selectors)
     {
         const content = document.querySelector(selector);
@@ -33,7 +33,7 @@ function CreateAIButton()
     const button = document.createElement('div');
     button.className = 'T-I J-J5-Ji aoO v7 T-I-atl L3';
     button.style.marginRight = '8px';
-    button.innerHTML = 'AI Reply';
+    button.innerHTML = '✦ AI Reply';
     button.setAttribute('role', 'button');
     button.setAttribute('data-tooltip', 'Generate AI Reply');
 
@@ -88,15 +88,16 @@ function injectButton()
             );
             if(composeBox)
             {
+                composeBox.innerHTML = '';
                 composeBox.focus();
                 document.execCommand('insertText',false, generatedReply);
             }
         } 
         catch (error) {
-            
+            console.error("Error:", error); 
         }
         finally{
-            button.innerHTML = "AI Reply";
+            button.innerHTML = "✦ AI Reply";
             button.disabled = false;
             button.classList.remove('loading');  
         }
