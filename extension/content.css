@@ -1,0 +1,23 @@
+@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.ai-reply-button {
+    border-radius: 20px !important;
+    color: #0f172a !important;
+    background: #ffffff !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    border: 2px solid transparent !important;
+    background-clip: padding-box !important;
+    outline: 2px solid #38bdf8 !important;
+    outline-offset: 0px !important;
+    animation: spin 0s !important;
+    transition: transform 0.15s ease !important;
+}
+
+.ai-reply-button:hover {
+    transform: translateY(-1px);
+    outline-color: #34d399 !important;
+}
