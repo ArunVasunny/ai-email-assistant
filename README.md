@@ -24,6 +24,6 @@ This project was built to explore how AI can be integrated into real-world workf
 
 ##  Output
 
-
+https://github.com/user-attachments/assets/b8970c52-eac9-4c95-a965-d1baa084452f
 
 ---
