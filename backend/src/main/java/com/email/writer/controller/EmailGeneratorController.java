@@ -1,4 +1,4 @@
-package com.email.writer;
+package com.email.writer.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.email.writer.dto.EmailRequest;
+import com.email.writer.service.EmailGeneratorService;
 
 @RestController
 @RequestMapping("/api/email")

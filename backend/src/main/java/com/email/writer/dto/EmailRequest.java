@@ -1,4 +1,4 @@
-package com.email.writer;
+package com.email.writer.dto;
 
 public class EmailRequest{
     private String emailContent;

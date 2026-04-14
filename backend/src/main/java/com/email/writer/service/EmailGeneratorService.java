@@ -1,7 +1,9 @@
-package com.email.writer;
+package com.email.writer.service;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Component;
+
+import com.email.writer.dto.EmailRequest;
 
 
 @Component
