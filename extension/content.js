@@ -28,6 +28,7 @@ function findComposeToolbar()
     return null;
     
 }
+
 function CreateAIButton()
 {   
     const button = document.createElement('div');
@@ -38,16 +39,115 @@ function CreateAIButton()
     button.setAttribute('data-tooltip', 'Generate AI Reply');
 
     return button;
-    
+}
+
+function createToggleButton() {
+    const toggle = document.createElement('div');
+    toggle.classList.add('ai-tone-toggle');
+    toggle.innerHTML = '▾';
+    toggle.style.cssText = `
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid #38bdf8;
+        background: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        margin-right: 6px;
+        user-select: none;
+    `;
+    return toggle;
+}
+
+function createDropdownList(onSelect) {
+    const dropdown = document.createElement('div');
+    dropdown.classList.add('ai-tone-dropdown');
+    dropdown.style.cssText = `
+        display: none;
+        position: absolute;
+        bottom: 110%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        overflow: hidden;
+        z-index: 9999;
+        min-width: 130px;
+        padding: 4px;
+    `;
+
+    const tones = ["Professional", "Casual", "Friendly"];
+
+    tones.forEach(tone => {
+        const item = document.createElement('div');
+        item.textContent = tone;
+        item.style.cssText = `
+            padding: 7px 14px;
+            font-size: 13px;
+            font-family: 'Google Sans', Arial, sans-serif;
+            color:rgb(0, 13, 43);
+            cursor: pointer;
+            border-radius: 6px;
+        `;
+
+        item.addEventListener('mouseenter', () => {
+            item.style.background = '#f1f3f4';
+        });
+        item.addEventListener('mouseleave', () => {
+            item.style.background = '#fff';
+        });
+
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            onSelect(tone.toLowerCase());
+            dropdown.style.display = 'none';
+        });
+
+        dropdown.appendChild(item);
+    });
+
+    return dropdown;
+}
+
+function selectBtn() {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('ai-tone-wrapper');
+    wrapper.style.cssText = 'position:relative; display:inline-block;';
+
+    // default tone 
+    let selectedTone = 'professional';
+
+    const dropdown = createDropdownList((tone) => {
+        selectedTone = tone;
+    });
+
+    const toggle = createToggleButton();
+
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', () => {
+        dropdown.style.display = 'none';
+    });
+
+    wrapper.appendChild(toggle);
+    wrapper.appendChild(dropdown);
+
+    wrapper.getSelectedTone = () => selectedTone;
+
+    return wrapper;
 }
 
 function injectButton()
 {
-    const existingButton = document.querySelector('.ai-reply-button')
-    if(existingButton)
-    {
-        existingButton.remove();
-    }
+    document.querySelector('.ai-reply-button')?.remove();
+    document.querySelector('.ai-tone-wrapper')?.remove();
 
     const toolbar = findComposeToolbar();
     if(!toolbar)
@@ -58,6 +158,7 @@ function injectButton()
 
     console.log("Toolbar found");
     const button = CreateAIButton();
+    const select = selectBtn();
     button.classList.add('ai-reply-button');
 
     button.addEventListener('click', async () => {
@@ -73,7 +174,7 @@ function injectButton()
                 headers: {'Content-Type': 'application/json'},
                 body:JSON.stringify({
                     emailContent: emailContent,
-                    tone: "professional"
+                    tone: select.getSelectedTone()
                 })
             });
 
@@ -103,6 +204,7 @@ function injectButton()
         }
     })
     toolbar.insertBefore(button,toolbar.firstChild)
+    toolbar.insertBefore(select, button.nextSibling);
 }
 
 const observer = new MutationObserver((mutations) => {
@@ -117,7 +219,14 @@ const observer = new MutationObserver((mutations) => {
         if(hasComposeElements)
         {
             console.log("Compose window detected")
-            setTimeout(injectButton,500);
+            if(hasComposeElements) {
+                console.log('Compose window detected');
+                setTimeout(() => {
+                    if(!document.querySelector('.ai-reply-button')) {
+                        injectButton();
+                    }
+                }, 500);
+            }
         }
     }
 });
@@ -126,3 +235,4 @@ observer.observe(document.body,{
     childList: true,
     subtree: true
 })
+
