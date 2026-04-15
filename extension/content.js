@@ -80,6 +80,7 @@ function createDropdownList(onSelect) {
         padding: 4px;
     `;
 
+    let selectedItem = null;
     const tones = ["Professional", "Casual", "Friendly"];
 
     tones.forEach(tone => {
@@ -89,7 +90,7 @@ function createDropdownList(onSelect) {
             padding: 7px 14px;
             font-size: 13px;
             font-family: 'Google Sans', Arial, sans-serif;
-            color:rgb(0, 13, 43);
+            color:rgb(0, 12, 41);
             cursor: pointer;
             border-radius: 6px;
         `;
@@ -98,11 +99,24 @@ function createDropdownList(onSelect) {
             item.style.background = '#f1f3f4';
         });
         item.addEventListener('mouseleave', () => {
-            item.style.background = '#fff';
+            
+            if(selectedItem === item)
+            {
+                item.style.background = '#79c9ff';
+            }
+            else{
+                item.style.background = '#fff';
+            }
         });
 
         item.addEventListener('click', (e) => {
             e.stopPropagation();
+            if(selectedItem)
+            {
+                selectedItem.style.background = '#fff'
+            }
+            item.style.background = '#79c9ff';
+            selectedItem = item;
             onSelect(tone.toLowerCase());
             dropdown.style.display = 'none';
         });
